@@ -1,4 +1,5 @@
 // here we will update the backend to inlcude CRUD 
+const { error } = require('console');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -20,6 +21,28 @@ app.post("/api/items",(req,res)=>{
     const {name} = req.body;
     const newItem = {id: idCount++,name};
     items.push(newItem);
+    res.json(newItem);
+})
+//Read (GET)
+app.get("/api/items",(req,res)=>{
+    res.json(items);
+});
+// Update (PUT)
+app.put("/api/items/:id",(req , res)=>{
+    const id = Number(req.params.id);
+    const {name} = req.body;
+    const item = items.find(i => i.id === id);
+    if(!item) {
+    return res.status(404).json({error: "Item not found"});
+    }
+    item.name = name ; 
+    return res.json(item);
+})
+// Delete (DELETE)
+app.delete("/api/items/:id",(req, res)=>{
+    const {id} = req.params;
+    items = items.filter(i => i.id != id);
+    res.json({message:"Item deleted"});
 })
 // start server
 const port = process.env.port || 3000;
