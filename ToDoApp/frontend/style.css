@@ -1,0 +1,116 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Body styling */
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+/* Main container */
+.container {
+    background: #fff;
+    padding: 25px 30px;
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    position: absolute;
+    top: 30px;
+}
+
+/* Label */
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+}
+
+/* Input */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #667eea;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #667eea;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+/* Task list */
+ul {
+    list-style: none;
+    margin-top: 15px;
+}
+
+/* Task item */
+ul li {
+    background: #f5f6fa;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* Task buttons */
+ul li button {
+    width: auto;
+    padding: 5px 8px;
+    font-size: 12px;
+    margin-left: 5px;
+    border-radius: 4px;
+}
+
+ul li button:first-of-type {
+    background: #38a169;
+}
+
+ul li button:first-of-type:hover {
+    background: #2f855a;
+}
+
+ul li button:last-of-type {
+    background: #e53e3e;
+}
+
+ul li button:last-of-type:hover {
+    background: #c53030;
+}

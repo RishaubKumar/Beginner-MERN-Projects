@@ -18,7 +18,7 @@ app.get("/",(req,res)=>{
 // ---------------CRUD API-------------
 //Create (POST)
 app.post("/api/items",(req,res)=>{
-    const {name} = req.body;
+    const {name} = req.body; // these brackets {} helps to extract a property form the req.body 
     const newItem = {id: idCount++,name};
     items.push(newItem);
     res.json(newItem);

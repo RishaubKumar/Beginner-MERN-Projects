@@ -2,3 +2,6 @@ BasicApp/backend/node_modules/
 BasicApp/mvcBackend/node_modules/
 
 ToDoApp/backend/node_modules/
+
+mongoApp/backend/node_modules
+mongoApp/mysqlbackend/node_modules

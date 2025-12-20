@@ -1,69 +1,69 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "../frontend")));
-
 const dataFile = path.join(__dirname,"data.json");
 
-// Read Json file 
+app.use(express.static(path.join(__dirname,"../frontend")))
+app.use(express.json());
+
+// let tasks = [];
+let idCount = 1;
+
 function loadData(){
-    if(!fs.existsSync(dataFile)) return []; // If there is no data file create and return and empty array
-    const json = fs.readFileSync(dataFile,"utf-8")
+    if(!fs.existsSync(dataFile)) return [];
+    const json = fs.readFileSync(dataFile,"utf-8");
     return JSON.parse(json);
 }
- // write JSON file
+
 function saveData(data){
-    fs.writeFileSync(dataFile,JSON.stringify(data,null,2));
+    fs.writeFileSync(dataFile,JSON.stringify(data,null,2))
 }
-// let items = [];
-let idcount = 1;
-// '/' should be reserve to serve the home page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+app.get("/",(req,res)=>{
+    res.sendFile(path.join(__dirname,"../frontend/index.html"))
 })
-app.post('/api/items', (req, res) => {
-    const items = loadData();
-    const { newTask } = req.body;
-    const newItem = { id: idcount++, newTask }; // here we are creating and element giving it a new Id and name as per the task 
-    items.push(newItem); // pushing the task to the array we made
-    saveData(items);
+// (READ) load Task to page
+app.get("/api/tasks",(req,res)=>{
+    const tasks = loadData();
+    res.json(tasks);
+})
+
+// (CREATE) Create the item as per user input
+app.post("/api/tasks",(req,res)=>{
+    const tasks = loadData();
+    const {name} = req.body;
+    const nextId = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+    const newItem = {id:nextId,name};
+    tasks.push(newItem);
+    saveData(tasks);
     res.json(newItem);
 })
-app.get('/api/items', (req, res) => {
-    const items = loadData();
-    res.json(items);
-})
-app.put('/api/items/:id', (req, res) => {
-    const items = loadData();
-    const id = Number(req.params.id);
-    const {newTask} = req.body;
-    // items = items.find(i => i.id === id);
-    // filter() - Creates new array with elements passing the test ; i - Each item in items array (current element) ; i.id === id - Test: "Does this item's ID match the target ID?" ;Result: New array with only items where test returns true
-    const item = items.find(i => i.id === id);
-if (item) {
-    item.newTask = newTask;
-    saveData(items);
-    res.json(item);
-} else {
-    res.status(404).json({ error: "Item not found" });
-}
-    // res.json(items);
-})
-app.delete('/api/items/:id', (req, res) => {
-    // console.log(req.params);
-    let items = loadData();
-    const id  = Number(req.params.id);
-    console.log(id);
-    items = items.filter(i => i.id !== id);
-    saveData(items);
-    res.json({ message: "task removed" });
-})
-const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log(`Server is listening at port ${port}`);
-});
+// (UPDATE) Edit the task
+app.put("/api/tasks/:id",(req,res)=>{
+    const tasks = loadData();
+    const id = Number(req.params.id)
+    const {name} = req.body
+    const item = tasks.find(i => i.id === id)
+    if(!item){
+       return res.status(404).json({error:"task not found"});
+    }
+    item.name = name;
+    saveData(tasks);
+    res.json(item);
+})
+ // (DELETE) remove the task
+app.delete("/api/tasks/:id",(req,res)=>{
+    const tasks = loadData();
+    const id = Number(req.params.id);
+    const newtasks = tasks.filter(i=> i.id !== id);
+    saveData(newtasks);
+    res.json({message: "task removed"})
+})
+const port = process.env.PORT || 8000;
+
+app.listen(port,()=>{
+    console.log(`Server is listening at port : ${port}`)
+})
