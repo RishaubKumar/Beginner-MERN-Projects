@@ -62,6 +62,69 @@ function deleteItem(id) {
     });
 }
 
+// This is the same task as above done using axios rather than fetch 
+window.onload = loadItems;
+async function loadItems(){
+    try{
+        const res = axios.get("/api/items")
+        const data = res.data; // wait for Promise to resolve and in fetch .then retrun Promise as a callback 
+        const list = document.getElementById("itemList");
+        list.innerHTML = "";
+        data.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML= `${item.name} <button onclick="editItem(${item.id})"> Edit </button>
+            <button onclick="deleteItem(${item.id})">Delete </button>`;
+            console.log(li)
+            list.appendChild(li);
+        });
+    }
+    catch(err){
+        console.error("loading failed",err);
+    }
+
+}
+// create item
+async function addItem() {
+    const name = document.getElementById("itemInput").value;
+    if(!name) return;
+    try{
+        await axios.post("/api/items",{name},
+        {headers: {
+            "Content-Type": "application/json"
+        }});
+        document.getElementById("itemInput").value = "";
+        console.log(name);
+        loadItems();
+    }catch(err){
+        console.error("Create failed :",err);
+    }
+}
+// Edit Items
+async function editItem(id) {
+    const newName = prompt("Enter new name : ");
+    if(!newName)  return;
+    try{await axios.put(`/api/items/${id}`,
+        {name:newName},
+       { headers: {
+            "Content-Type": "application/json"
+        }}
+      )
+
+        loadItems();
+    }catch(err){
+        console.error("Updation Failed ! ",err);
+    }
+}
+// delete Items
+async function deleteItem(id) {
+    try{
+        await axios.delete(`/api/items/${id}`);
+        loadItems();
+    }catch(err){
+        console.error("Delete Failed",err);
+    }
+}
+
 
 // This is the section where we will test and use the API which is not commit from out backend (This is the better way to fetch rather than promise chaning)
 

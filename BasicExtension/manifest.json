@@ -1,0 +1,17 @@
+{
+  "name": "Just Jokes",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Just Jokes",
+    "default_icon": "logo128.png"
+  },
+  "icons": {
+    "128": "logo128.png"
+  },
+  "permissions": ["activeTab"],
+    "host_permissions": [
+  "https://official-joke-api.appspot.com/*"
+  ]
+}

@@ -5,3 +5,8 @@ ToDoApp/backend/node_modules/
 
 mongoApp/backend/node_modules
 mongoApp/mysqlbackend/node_modules
+
+skyPulse/backend/node_modules
+chatApp/backend/node_modules
+
+.env
