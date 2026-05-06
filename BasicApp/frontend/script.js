@@ -4,8 +4,8 @@
 window.onload = loadItems;
 function loadItems(){
     fetch("/api/items")
-    .then(res => res.json())
-    .then(data =>{
+    .then(res => res.json()) // res is a res object returned by js and this object is converted to standard json formate , the return of this then is used as a response for the next then
+    .then(data =>{ // this data is nothing but res.json and in axios we directly use the res.data no two then needed
         const list = document.getElementById("itemList");
         list.innerHTML = "";
         data.forEach(item => {
